@@ -1,0 +1,25 @@
+{
+  "name": "staffbot",
+  "version": "1.0.0",
+  "description": "Discord bot for the staff team",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Glorpiware/StaffBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Glorpiware/StaffBot/issues"
+  },
+  "homepage": "https://github.com/Glorpiware/StaffBot#readme",
+  "dependencies": {
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.3.1"
+  }
+}
