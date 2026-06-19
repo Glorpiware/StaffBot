@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const RCON = require('../../rcon');
 const fs = require('fs');
 const path = require('path');
+const ENV = process.env;
 
 let PATH = path.join(
     process.cwd(),
@@ -43,7 +44,7 @@ module.exports = {
         fs.writeFileSync(PATH, JSON.stringify(DATA));
         
 
-        await interaction.member.roles.add('1445792490300112897');
+        await interaction.member.roles.add(ENV.ROLE_ID);
 
 		await interaction.reply(`Added \`${username}\` to the whitelist!`);
 
