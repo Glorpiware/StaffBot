@@ -10,6 +10,7 @@ const {
     Collection
 } = require('discord.js');
 const ENV = process.env;
+const db = require('./db');
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
