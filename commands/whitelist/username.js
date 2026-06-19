@@ -9,8 +9,6 @@ let PATH = path.join(
     'users.json'
 );
 
-let DATA = JSON.parse( fs.readFileSync(PATH).toString() );
-
 let CommandData = new SlashCommandBuilder()
         .setName('username')
         .setDescription('Whitelist your minecraft account and connect your discord!')
@@ -26,6 +24,8 @@ module.exports = {
 	data: CommandData,
 
 	async execute(interaction) {
+        let DATA = JSON.parse( fs.readFileSync(PATH).toString() );
+        
         const username = interaction.options.getString('username');
 
         let userID = interaction.member.id;
@@ -36,6 +36,8 @@ module.exports = {
             return await interaction.reply(`Username already whitelisted!`);
         }
 
+        const channel = interaction.client.channels.cache.get(ENV.LOG_CHANNEL);
+
         let rcon = await RCON();
         let res = await rcon.execute(`whitelist add ${username}`);
 
@@ -45,6 +47,10 @@ module.exports = {
         
 
         await interaction.member.roles.add(ENV.ROLE_ID);
+        await interaction.member.setNickname(username, 'Minecraft username');
+
+        channel.send(`**<@${userID}>** \`${interaction.member.user.username}\` did a whitelist - \`${username}\``);
+        channel.send('`' + res + '`');
 
 		await interaction.reply(`Added \`${username}\` to the whitelist!`);
 
