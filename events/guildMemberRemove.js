@@ -32,6 +32,10 @@ module.exports = {
 
 			channel.send(`**<@${userID}>** \`${member.user.username}\` left the discord - \`${username}\``);
 
+			delete DATA['byID'][userID];
+			delete DATA['byName'][username];
+			fs.writeFileSync(PATH, JSON.stringify(DATA));
+
 			let rcon = await RCON();
 			res = await rcon.execute(`whitelist remove ${username}`);
 			rcon.disconnect();
