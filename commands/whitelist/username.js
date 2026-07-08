@@ -41,19 +41,25 @@ module.exports = {
         let rcon = await RCON();
         let res = await rcon.execute(`whitelist add ${username}`);
 
+        if (String(res).includes('That player does not exist')) {
+            await interaction.reply(`Username \`${username}\` is not a valid minecraft account. Are you sure you provided the correct username?`);
+            return;
+        }
+
         DATA['byID'][userID] = username;
         DATA['byName'][username] = userID;
         fs.writeFileSync(PATH, JSON.stringify(DATA));
-        
-
-        await interaction.member.roles.add(ENV.ROLE_ID);
-        await interaction.member.setNickname(username, 'Minecraft username');
 
         channel.send(`**<@${userID}>** \`${interaction.member.user.username}\` did a whitelist - \`${username}\``);
         channel.send('`' + res + '`');
 
-		await interaction.reply(`Added \`${username}\` to the whitelist!`);
+		await interaction.reply(`Added \`${username}\` ( <@${userID}> ) to the whitelist! Access to this channel will be removed in 15 seconds!`);
 
         rcon.disconnect();
+
+        setTimeout(async () => {
+            await interaction.member.roles.add(ENV.ROLE_ID);
+            await interaction.member.setNickname(username, 'Minecraft username');
+        }, 15 * 1000);
 	},
 };
